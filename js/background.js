@@ -1,8 +1,10 @@
+var urlPattern = '/youtube/i'
+
 function checkForValidURL(tabId, changeInfo,tab) {
 	//debug
-	console.log(tab.url);
+	//console.log(tab.url);
 	//TODO change to a suitable regex
-	if(tab.url.indexOf('https://www.youtube.com') == 0) {
+	if(tab.url.test(urlPattern)) {
 		chrome.pageAction.show(tabId);
 	}
 }
