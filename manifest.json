@@ -1,21 +1,19 @@
 {
-    "name": "BrowserActionExtension",
-    "version": "0.0.1",
-    "manifest_version": 2,
-    "browser_action": {
-        "default_title": "That's the tool tip",
-        "default_popup": "popup.html"
-    },
-    "background": {
-    	"scripts": ["background.js"],
-    	"persistent": false
+	"name": "BrowserActionExtension",
+	"version": "0.0.1",
+	"manifest_version": 2,
+	"background" : {
+	"scripts": ["js/background.js"],
+	"persistent": false
 	},
+	"permissions": ["tabs"],
 	"page_action": {
-	    "default_icon": {
-	        "19": "images/icon19.png",
-	        "38": "images/icon38.png"
-	    },
-    	"default_title": "Google Mail",
-    	"default_popup": "popup.html"
-	}
+		"default_icon": {
+			"16": "images/loop16.png",
+			"32": "images/loop32.png"
+		},
+		"default_title": "Youtube Looper",
+		"default_popup": "popup.html"
+	},
+	"content_security_policy": "script-src 'self' https://ajax.googleapis.com; object-src 'self'"
 }
