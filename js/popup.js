@@ -27,6 +27,35 @@ function init(tab){
 		    console.log(msg.farewell);
 		});
 	});
+	document.getElementById("btNudgeLeft1").addEventListener("click", function(){
+		var port = chrome.tabs.connect(tab.id);
+		port.postMessage({play: 3,offset:-0.16,time:1});
+		port.onMessage.addListener(function(msg) {
+		    console.log(msg.farewell);
+		});
+	});
+	document.getElementById("btNudgeRight1").addEventListener("click", function(){
+		var port = chrome.tabs.connect(tab.id);
+		port.postMessage({play: 3,offset:0.16,time:1});
+		port.onMessage.addListener(function(msg) {
+		    console.log(msg.farewell);
+		});
+	});
+	document.getElementById("btNudgeLeft2").addEventListener("click", function(){
+		var port = chrome.tabs.connect(tab.id);
+		port.postMessage({play: 3,offset:-0.16,time:2});
+		port.onMessage.addListener(function(msg) {
+		    console.log(msg.farewell);
+		});
+	});
+	document.getElementById("btNudgeRight2").addEventListener("click", function(){
+		var port = chrome.tabs.connect(tab.id);
+		port.postMessage({play: 3,offset:0.16,time:2});
+		port.onMessage.addListener(function(msg) {
+		    console.log(msg.farewell);
+		});
+	});
+
 }
 
 function getVideoId(url){

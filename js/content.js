@@ -23,10 +23,21 @@ chrome.runtime.onConnect.addListener(function(port) {
 			console.log("log1");
 			port.postMessage({farewell:'loop'});
 		}
-		else
-			port.postMessage({farewell:'oh:('}); // snub them.
+		else if(msg.play == 3){
+			nudge(msg.offset,msg.time);
+			console.log('nudge: '+ msg.offset + ' time' + msg.time);
+			port.postMessage({farewell:'nudge'}); // snub them.
+		}
 	});
 });
+
+function nudge(offset, time){
+	if(time == 1){
+		time += offset;
+	}else{
+		time2 -= offset;
+	}
+}
 
 function onEvent(){
 	console.log('startup');
