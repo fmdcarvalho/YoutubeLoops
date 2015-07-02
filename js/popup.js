@@ -3,6 +3,8 @@ function init(tab){
 		var port = chrome.tabs.connect(tab.id);
 		port.postMessage({play: 2});
 		port.onMessage.addListener(function(msg) {
+			disablePageChange();
+			enableControlButtons();
 		    console.log(msg.farewell);
 		});
 	});
@@ -13,30 +15,37 @@ function init(tab){
 		    console.log(msg.farewell);
 		});
 	});
+	document.getElementById("btReset").addEventListener("click", function(){
+		var port = chrome.tabs.connect(tab.id);
+		port.postMessage({play: 4});
+		port.onMessage.addListener(function(msg) {
+		    console.log(msg.farewell);
+		});
+	});
 	document.getElementById("btNudgeLeft1").addEventListener("click", function(){
 		var port = chrome.tabs.connect(tab.id);
-		port.postMessage({play: 3,offset:-0.16,time:1});
+		port.postMessage({play: 3,offset:-0.05,time:1});
 		port.onMessage.addListener(function(msg) {
 		    console.log(msg.farewell);
 		});
 	});
 	document.getElementById("btNudgeRight1").addEventListener("click", function(){
 		var port = chrome.tabs.connect(tab.id);
-		port.postMessage({play: 3,offset:0.16,time:1});
+		port.postMessage({play: 3,offset:0.05,time:1});
 		port.onMessage.addListener(function(msg) {
 		    console.log(msg.farewell);
 		});
 	});
 	document.getElementById("btNudgeLeft2").addEventListener("click", function(){
 		var port = chrome.tabs.connect(tab.id);
-		port.postMessage({play: 3,offset:-0.16,time:2});
+		port.postMessage({play: 3,offset:-0.05,time:2});
 		port.onMessage.addListener(function(msg) {
 		    console.log(msg.farewell);
 		});
 	});
 	document.getElementById("btNudgeRight2").addEventListener("click", function(){
 		var port = chrome.tabs.connect(tab.id);
-		port.postMessage({play: 3,offset:0.16,time:2});
+		port.postMessage({play: 3,offset:0.05,time:2});
 		port.onMessage.addListener(function(msg) {
 		    console.log(msg.farewell);
 		});
@@ -62,10 +71,25 @@ function disablePageChange(){
 function disableControlButtons(){
 	document.getElementById("bt01").disabled = true;
 	document.getElementById("btStart").disabled = true;
+	document.getElementById("btReset").disabled = true;
 	document.getElementById("btNudgeLeft1").disabled = true;
 	document.getElementById("btNudgeRight1").disabled = true;
 	document.getElementById("btNudgeLeft2").disabled = true;
 	document.getElementById("btNudgeRight2").disabled = true;
+}
+
+function enablePageChange(){
+	document.getElementById("btPage").disabled = false;
+}
+
+function enableControlButtons(){
+	document.getElementById("bt01").disabled = false;
+	document.getElementById("btStart").disabled = false;
+	document.getElementById("btReset").disabled = false;
+	document.getElementById("btNudgeLeft1").disabled = false;
+	document.getElementById("btNudgeRight1").disabled = false;
+	document.getElementById("btNudgeLeft2").disabled = false;
+	document.getElementById("btNudgeRight2").disabled = false;
 }
 
 function getVideoId(url){
@@ -93,6 +117,9 @@ $(document).ready(function(){
 		if(isYoutubePage(url)){
 			console.log("isyoutube");
 			console.log("isYoutubeJSAPICall = " + isYoutubeJSAPICall(url) );
+			document.getElementById("btPage").addEventListener("click", function(){
+				changeToFlashPlayer();
+			});
 			if(isYoutubeJSAPICall(url)){
 				disablePageChange();
 				console.log("isjsapicall", window["currentTab"]);
@@ -101,9 +128,6 @@ $(document).ready(function(){
 				console.log("!isjsapicall");
 				disableControlButtons();
 			}
-			document.getElementById("btPage").addEventListener("click", function(){
-				changeToFlashPlayer();
-			});
 		}
 		else {
 			disablePageChange();

@@ -12,9 +12,9 @@ var isActiveTab = true;
 chrome.runtime.onConnect.addListener(function(port) {
 	port.onMessage.addListener(function(msg) {
 		if (msg.play == 1){	
-			onEvent();
+			init();
 			console.log("log1");
-			port.postMessage({farewell:'yay'});
+			port.postMessage({farewell:'pageChange'});
 		}
 		else if(msg.play == 2){
 			onC();
@@ -26,8 +26,17 @@ chrome.runtime.onConnect.addListener(function(port) {
 			console.log('nudge: '+ msg.offset + ' time' + msg.time);
 			port.postMessage({farewell:'nudge'}); // snub them.
 		}
+		else if(msg.play == 4){
+			reset();
+			port.postMessage({farewell:'reset'});
+		}
 	});
 });
+
+function reset(){
+	first = true;
+	time2 = player.getDuration();
+}
 
 function nudge(offset, time){
 	if(time == 1){
@@ -37,7 +46,7 @@ function nudge(offset, time){
 	}
 }
 
-function onEvent(){
+function init(){
 	console.log('startup');
 	a = document.createElement('DIV');
 	a.id = 'one';
@@ -54,33 +63,32 @@ function onEvent(){
 	div3  = document.getElementById("time");
 	player.playVideo();
 	window.addEventListener('blur', function() {
-	    isActiveTab = false;
+		isActiveTab = false;
 	}, false);
 	window.addEventListener('focus', function() {
-	    isActiveTab = true;
+		isActiveTab = true;
 	}, false);
 }
 
 var onC = function(){
-    if(first) {
-        first = !first;
-        time = time2 = player.getCurrentTime();
-        div1.innerHTML ="time 1: "+time;
-    }else{
-        time2 = player.getCurrentTime();
-        window.requestAnimationFrame(loop);
-        div2.innerHTML ="time 2: "+time2;
-    }
+	if(first) {
+		first = !first;
+		time = time2 = player.getCurrentTime();
+		div1.innerHTML ="time 1: "+time;
+	}else{
+		time2 = player.getCurrentTime();
+		window.requestAnimationFrame(loop);
+		div2.innerHTML ="time 2: "+time2;
+	}
 }
 
 var loop = function(){
-    div3.innerHTML ="curTime: "+player.getCurrentTime();
-    if(player.getCurrentTime() >= time2){
-        player.seekTo(time);
-    }
-    if (isActiveTab) {
-        window.requestAnimationFrame(loop);
-    } else {
-        setTimeout(loop, 16); 
-    }
+	if(player.getCurrentTime() >= time2){
+		player.seekTo(time);
+	}
+	if (isActiveTab) {
+		window.requestAnimationFrame(loop);
+	} else {
+		setTimeout(loop, 16); 
+	}
 }
