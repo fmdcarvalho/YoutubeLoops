@@ -9,8 +9,6 @@ var div3;
 
 var isActiveTab = true;
 
-
-
 chrome.runtime.onConnect.addListener(function(port) {
 	port.onMessage.addListener(function(msg) {
 		if (msg.play == 1){	
